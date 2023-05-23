@@ -15,21 +15,21 @@ public class StudentServiceImpl implements StudentService{
 
     @Override
     public Student findById(Integer id) {
-        return null;
+        return dao.findById(id);
     }
 
     @Override
     public int insert(Student stu) {
-        return 0;
+        return dao.insert(stu);
     }
 
     @Override
     public int update(Student stu) {
-        return 0;
+        return dao.update(stu);
     }
 
     @Override
-    public int delete(Student stu) {
-        return 0;
+    public int delete(Integer id) {
+        return dao.delete(id);
     }
 }

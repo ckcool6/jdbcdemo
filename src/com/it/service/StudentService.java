@@ -9,5 +9,5 @@ public interface StudentService {
     public abstract Student findById(Integer id);
     public abstract int insert(Student stu);
     public abstract int update(Student stu);
-    public abstract int delete(Student stu);
+    public abstract int delete(Integer id);
 }
