@@ -1,6 +1,7 @@
 package com.it.dao;
 
 import com.it.domain.Student;
+import com.it.utils.JDBCUtils;
 
 import java.sql.*;
 import java.text.SimpleDateFormat;
@@ -18,8 +19,8 @@ public class StudentDaoImpl implements StudentDao {
         ResultSet rs = null;
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://192.168.11.130:3306/db14", "root", "ckns818");
+            con = JDBCUtils.getConnection();
+
             stat = con.createStatement();
             String sql = "select * from student";
             rs = stat.executeQuery(sql);
@@ -39,27 +40,7 @@ public class StudentDaoImpl implements StudentDao {
             e.printStackTrace();
         } finally {
             //释放资源
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            if (stat != null) {
-                try {
-                    stat.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
+            JDBCUtils.close(con, stat, rs);
         }
         //返回集合对象
         return list;
@@ -74,8 +55,8 @@ public class StudentDaoImpl implements StudentDao {
         ResultSet rs = null;
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://192.168.11.130:3306/db14", "root", "ckns818");
+            con = JDBCUtils.getConnection();
+
             stat = con.createStatement();
             String sql = "select * from student where sid='" + id + "'";
             rs = stat.executeQuery(sql);
@@ -95,27 +76,7 @@ public class StudentDaoImpl implements StudentDao {
             e.printStackTrace();
         } finally {
             //释放资源
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            if (stat != null) {
-                try {
-                    stat.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
+            JDBCUtils.close(con, stat, rs);
         }
         //
         return stu;
@@ -129,8 +90,7 @@ public class StudentDaoImpl implements StudentDao {
         int result = 0;
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://192.168.11.130:3306/db14", "root", "ckns818");
+            con = JDBCUtils.getConnection();
             stat = con.createStatement();
             Date d = stu.getBirthday();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -142,21 +102,7 @@ public class StudentDaoImpl implements StudentDao {
             e.printStackTrace();
         } finally {
             //释放资源
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            if (stat != null) {
-                try {
-                    stat.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-
+            JDBCUtils.close(con, stat);
         }
         //
         return result;
@@ -170,8 +116,8 @@ public class StudentDaoImpl implements StudentDao {
         int result = 0;
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://192.168.11.130:3306/db14", "root", "ckns818");
+            con=JDBCUtils.getConnection();
+
             stat = con.createStatement();
             Date d = stu.getBirthday();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -183,20 +129,7 @@ public class StudentDaoImpl implements StudentDao {
             e.printStackTrace();
         } finally {
             //释放资源
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            if (stat != null) {
-                try {
-                    stat.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
+            JDBCUtils.close(con,stat);
 
         }
         //
@@ -210,31 +143,17 @@ public class StudentDaoImpl implements StudentDao {
         int result = 0;
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");
-            con = DriverManager.getConnection("jdbc:mysql://192.168.11.130:3306/db14", "root", "ckns818");
+            con=JDBCUtils.getConnection();
+
             stat = con.createStatement();
-            String sql = "delete from student where sid='"+id+"'";
+            String sql = "delete from student where sid='" + id + "'";
             result = stat.executeUpdate(sql);
 
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             //释放资源
-            if (con != null) {
-                try {
-                    con.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-            if (stat != null) {
-                try {
-                    stat.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-
+            JDBCUtils.close(con,stat);
         }
         //
         return result;
