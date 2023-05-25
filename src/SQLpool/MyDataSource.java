@@ -4,6 +4,9 @@ import com.it.utils.JDBCUtils;
 
 import javax.sql.DataSource;
 import java.io.PrintWriter;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,8 +31,22 @@ public class MyDataSource implements DataSource {
     public Connection getConnection() throws SQLException {
         if (pool.size() > 0) {
             Connection con = pool.remove(0);
-            MyConnection3 myCon = new MyConnection3(con, pool);
-            return myCon;
+            Connection proxyCon = (Connection) Proxy.newProxyInstance(
+                    con.getClass().getClassLoader(),
+                    new Class[]{Connection.class},
+                    new InvocationHandler() {
+                        @Override
+                        public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                            if (method.getName().equals("close")) {
+                                pool.add(con);
+                                return null;
+                            } else {
+                                return method.invoke(con, args);
+                            }
+                        }
+                    }
+            );
+            return proxyCon;
         } else {
             throw new RuntimeException("连接数量已经用尽");
         }
